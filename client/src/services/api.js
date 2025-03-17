@@ -4,7 +4,7 @@ import axios from "axios";
 */
 
 // POST Method
-export async function axiosPost(url, data){
+export async function axiosPost({url, data}){
   let result = null;
   // console.log('url',url);
   // console.log('data',data);

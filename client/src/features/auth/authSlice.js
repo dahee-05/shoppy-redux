@@ -14,11 +14,14 @@ export const authSlice = createSlice({
       if(action.payload.result_rows){
         state.isLoggedIn = true;
       }
+   },
+   setIsLogout(state){
+    state.isLoggedIn= false;
    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setIsLoggedIn } = authSlice.actions
+export const { setIsLoggedIn, setIsLogout } = authSlice.actions
 
 export default authSlice.reducer
