@@ -6,17 +6,20 @@ import { CartContext } from '../context/CartContext.js';
 import { useCart } from "../hooks/useCart.js";
 import { LuShoppingCart } from "react-icons/lu";
 import { IoPersonOutline } from "react-icons/io5";
+import { useSelector } from 'react-redux';
 
 export default function Header() {
     const { getCount, setCount } = useCart(); 
     const { cartCount } = useContext(CartContext);
-    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
+    // const setIsLoggedIn = useSelector(state => state.login.setIsLoggedIn);
+    // const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const id = localStorage.getItem("user_id");
 
     //로그인 상태에 따라 cartCount 값 변경
     useEffect(()=>{
-        isLoggedIn ?    getCount() :   setCount(0);
+        // isLoggedIn ?    getCount() :   setCount(0);
     }, [isLoggedIn]);
 
     const handleLoginToggle = () => {
@@ -25,7 +28,7 @@ export default function Header() {
             if(select) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user_id");
-                setIsLoggedIn(false);
+                // setIsLoggedIn(false);
                 navigate('/');
             }    
         } else {  
@@ -38,7 +41,7 @@ export default function Header() {
             <div className='header'>
                 <Link to='/' className='header-left'>
                     <FiShoppingBag />
-                    <span>Shoppy</span>
+                    <span>Shoppy-Redux</span>
                 </Link>
                 <nav className='header-right'>
                     
