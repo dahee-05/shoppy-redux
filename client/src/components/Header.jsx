@@ -1,25 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+// import { AuthContext } from '../auth/AuthContext.js';
+// import { CartContext } from '../context/CartContext.js';
+// import { useCart } from "../hooks/useCart.js";
+// import { IoPersonOutline } from "react-icons/io5";
+import React, { useEffect } from 'react';
 import { Link, useNavigate  } from 'react-router-dom';
 import { FiShoppingBag } from "react-icons/fi";
-import { AuthContext } from '../auth/AuthContext.js';
-import { CartContext } from '../context/CartContext.js';
-import { useCart } from "../hooks/useCart.js";
 import { LuShoppingCart } from "react-icons/lu";
-import { IoPersonOutline } from "react-icons/io5";
 import { useSelector, useDispatch } from 'react-redux';
 import { getLogout } from '../services/authApi.js';
+import { getCount, clearCount } from '../services/cartApi.js';
 
 export default function Header() {
-    const dispatch = useDispatch();
-    const { cartCount } = useContext(CartContext);
-    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
+    // const { cartCount } = useContext(CartContext);
     // const setIsLoggedIn = useSelector(state => state.login.setIsLoggedIn);
+    // const { getCount, setCount } = useCart();
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
+    const cartCount = useSelector(state => state.cart.cartCount);
     const navigate = useNavigate();
     const id = localStorage.getItem("user_id");
 
     //로그인 상태에 따라 cartCount 값 변경
     useEffect(()=>{
-        // isLoggedIn ?    getCount() :   setCount(0);
+        isLoggedIn ? dispatch(getCount()) :  dispatch(clearCount());
     }, [isLoggedIn]);
 
     const handleLoginToggle = () => {
@@ -27,6 +30,7 @@ export default function Header() {
             const select = window.confirm("정말로 로그아웃 하시겠습니까?");
             if(select) {
                 dispatch(getLogout());
+                navigate('/');
             }    
         } else {  
             navigate('/login');
@@ -53,9 +57,12 @@ export default function Header() {
                     <button type="button" onClick={handleLoginToggle}>
                         { isLoggedIn ? "Logout" : "Login" }
                     </button>
-                    <Link to='/signup'>
-                        <button type="button">Signup</button>
-                    </Link>  
+
+                    {!isLoggedIn &&
+                        <Link to='/signup'>
+                            <button type="button">Signup</button>
+                        </Link>  
+                    }
                     
                     { isLoggedIn && 
                         <Link to='/products/new'>

@@ -1,21 +1,20 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DaumPostcode from "react-daum-postcode";
-import { useOrder } from '../hooks/useOrder.js';
-import { AuthContext } from '../auth/AuthContext.js';
-import { OrderContext } from "../context/OrderContext.js";
-import { CartContext } from "../context/CartContext.js";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { getOrderList, paymentKakaoPay } from '../services/orderApi.js';
 
 import "../styles/cart.css";
 import "../styles/checkoutinfo.css";
 
 export default function CheckoutInfo() {
+    const dispatch   = useDispatch();
+    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
+    const totalPrice = useSelector(state => state.cart.totalPrice);
+    const orderList  = useSelector(state => state.order.orderList);
+    const member     = useSelector(state => state.order.member);
+
     const [zipcode, setZipcode] = useState("");
     const [address, setAddress] = useState("");
-    const { totalPrice } = useContext(CartContext);
-    const { isLoggedIn } = useContext(AuthContext);
-    const { orderList, member } = useContext(OrderContext);
-    const { getOrderList, paymentKakaoPay } = useOrder();
     const [ qrUrl, setQrUrl] = useState('');
     const   zipcodeRef = useRef(null), 
             addressRef = useRef(null), 
@@ -25,7 +24,7 @@ export default function CheckoutInfo() {
 
     useEffect(()=>{
         if(isLoggedIn) {
-            getOrderList();
+            dispatch(getOrderList());
         }
     }, [isLoggedIn]);
 
@@ -42,26 +41,8 @@ export default function CheckoutInfo() {
         if(!(terms1Ref.current.checked && terms2Ref.current.checked)) {
             alert("약관 동의 후 결제가 진행됩니다.");
         } else {
-            await paymentKakaoPay();
-            
-            // const id = localStorage.getItem("user_id");        
-            // try {
-            //     const response = await axios.post("http://localhost:9000/payment/qr", {
-            //         id:id,
-            //         item_name: "테스트 상품",
-            //         total_amount: 1000, // 결제 금액 (KRW)
-            //     });
-            //     // window.location.href = response.data.next_redirect_pc_url;
-
-            //     if ( response.data.next_redirect_pc_url) {
-            //         // setQrUrl(response.data.next_redirect_mobile_url);
-
-            //         window.location.href = response.data.next_redirect_pc_url;
-            //     }
-            // } catch (error) {
-            //     console.error("QR 결제 요청 실패:", error);
-            // }
-        }//if
+            dispatch(paymentKakaoPay(totalPrice,orderList));
+        }
     }//handlePayment
 
     /** 배송지 변경 */
@@ -70,9 +51,7 @@ export default function CheckoutInfo() {
         const address = addressRef.current.value;
         const detail = detailAddressRef.current.value;
         const formData = {zipcode:zipcode, address:address, detail:detail};
-        
         //배송지 변경 - 서버연동 코드 추가        
-        
     }
 
     //---- DaumPostcode 관련 디자인 및 이벤트 시작 ----//

@@ -93,7 +93,7 @@ export function useOrder() {
     const getOrderList = async() => {
         const id = localStorage.getItem("user_id");
         const result = await axios.post("http://localhost:9000/order/all", {"id": id});  
-console.log('order list-->', result.data);
+        console.log('order list-->', result.data);
         setOrderList(result.data);
         setMember(result.data[0]);
         calculateTotalPrice(result.data);
