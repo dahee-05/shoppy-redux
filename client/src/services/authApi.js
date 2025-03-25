@@ -2,8 +2,8 @@ import { setIsLoggedIn, setIsLogout, setLoginReset } from "../features/auth/auth
 import { axiosPost } from "./api.js";
 
 export const getLogin = (formData) => async(dispatch) =>{
-    const url = `http://localhost:9000/member/login`;
-    const data = formData;
+    const url = `http://3.35.233.94:9000/member/login`;
+    const data = formData;  
     
     const loginResult = await axiosPost({url, data});
     const result_rows = loginResult.result_rows;

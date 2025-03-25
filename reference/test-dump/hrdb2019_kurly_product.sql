@@ -47,7 +47,7 @@ CREATE TABLE `kurly_product` (
 
 LOCK TABLES `kurly_product` WRITE;
 /*!40000 ALTER TABLE `kurly_product` DISABLE KEYS */;
-INSERT INTO `kurly_product` VALUES (1,'화장품 ','101','001','미스트 ','미스트',29000,10,1,'upload_files\\1739864678144_6.jpg','6.jpg','[\"http://localhost:9000/upload_files\\\\1739864682083-1.jpg\", \"http://localhost:9000/upload_files\\\\1739864682099-2.jpg\", \"http://localhost:9000/upload_files\\\\1739864682114-3.jpg\"]','[\"1.jpg\", \"2.jpg\", \"3.jpg\"]',NULL);
+INSERT INTO `kurly_product` VALUES (1,'화장품 ','101','001','미스트 ','미스트',29000,10,1,'upload_files\\1739864678144_6.jpg','6.jpg','[\"http://3.35.233.94:9000/upload_files\\\\1739864682083-1.jpg\", \"http://3.35.233.94:9000/upload_files\\\\1739864682099-2.jpg\", \"http://3.35.233.94:9000/upload_files\\\\1739864682114-3.jpg\"]','[\"1.jpg\", \"2.jpg\", \"3.jpg\"]',NULL);
 /*!40000 ALTER TABLE `kurly_product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

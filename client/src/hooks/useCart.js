@@ -13,7 +13,7 @@ export function useCart() {
      *****************************/
     const getCartList = async() => {
         const id = localStorage.getItem("user_id");
-        const result = await axios.post("http://localhost:9000/cart/items", {"id":id});
+        const result = await axios.post("http://3.35.233.94:9000/cart/items", {"id":id});
         setCartList(result.data);
         setCartCount(result.data.length);
         calculateTotalPrice(result.data);
@@ -23,7 +23,7 @@ export function useCart() {
      * 장바구니 새로운 아이템 저장
      *****************************/
     const saveToCartList = async(formData) => {
-        const result = await axios.post("http://localhost:9000/cart/add", formData);  
+        const result = await axios.post("http://3.35.233.94:9000/cart/add", formData);  
         if(result.data.result_rows) {
             setCartCount(cartCount+1);
             getCartList();
@@ -35,7 +35,7 @@ export function useCart() {
      * 장바구니 아이템 수량 업데이트
      *****************************/
     const updateCartList = async(cid, type) => {     
-        const result = await axios.put("http://localhost:9000/cart/updateQty", 
+        const result = await axios.put("http://3.35.233.94:9000/cart/updateQty", 
                                         {"cid":cid, "type": type});
         result.data.result_rows && getCartList();
         return result.data.result_rows;
@@ -46,7 +46,7 @@ export function useCart() {
      *****************************/
     const getCount = async() => {
         const id = localStorage.getItem("user_id");
-        const result = await axios.post("http://localhost:9000/cart/count", {"id":id});
+        const result = await axios.post("http://3.35.233.94:9000/cart/count", {"id":id});
         setCartCount(result.data.count);
         return result.data.count;
     }
@@ -60,7 +60,7 @@ export function useCart() {
      * 장바구니 아이템 삭제
      *****************************/
     const deleteCartItem = async(cid) => {
-        const result = await axios.delete("http://localhost:9000/cart/deleteItem", 
+        const result = await axios.delete("http://3.35.233.94:9000/cart/deleteItem", 
                                             {data : {"cid": cid}});
         result.data.result_rows && getCartList();
     }
@@ -79,7 +79,7 @@ export function useCart() {
      *****************************/
     const clearCart = async() => {
         const id = localStorage.getItem("user_id");
-        const result = await axios.delete("http://localhost:9000/cart/clear", {data: {"id": id}});
+        const result = await axios.delete("http://3.35.233.94:9000/cart/clear", {data: {"id": id}});
         result.data.result_rows && getCartList();
     }
 
